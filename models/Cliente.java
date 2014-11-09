@@ -2,13 +2,14 @@ package models;
 
 import com.db4o.ObjectSet;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by erico on 09/11/14.
  */
 public class Cliente extends Pessoa{
-    private ClienteDB db = new ClienteDB();
+    private static ClienteDB db = new ClienteDB();
     private String profissao;
     private Double score;
 
@@ -48,6 +49,18 @@ public class Cliente extends Pessoa{
     }
 
     public void save(){
+        if(db.findByCpf(getCpf()) != null){
+            db.update(this);
+        }else{
+            db.insert(this);
+        }
+    }
 
+    public static Cliente findByCpf(String cpf){
+        return db.findByCpf(cpf);
+    }
+
+    public static ArrayList<Cliente> all(){
+        return db.all();
     }
 }
