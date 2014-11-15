@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * Created by erico on 09/11/14.
  */
-public class ClienteDB{
+public class ClienteDatabase implements ClienteDao{
     private static ObjectContainer db;
 
-    public ClienteDB(){}
+    public ClienteDatabase(){}
 
     private void openDB(){
         db = Db4oEmbedded.openFile("database.db");
