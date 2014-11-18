@@ -1,7 +1,5 @@
 package models;
 
-import com.db4o.ObjectSet;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,7 +7,7 @@ import java.util.Date;
  * Created by erico on 09/11/14.
  */
 public class Cliente extends Pessoa{
-    private static ClienteDB db = new ClienteDB();
+    private static ClienteDatabase db = new ClienteDatabase();
     private String profissao;
     private Double score;
 
