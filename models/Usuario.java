@@ -56,7 +56,7 @@ public class Usuario extends Pessoa{
         setEmail(u.getEmail());
         return this;
     }
-    public void salve(){
+    public void save(){
         if(db.findByCpf(getCpf()) != null){
             db.update(this);
         }else{
