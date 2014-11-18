@@ -12,13 +12,14 @@ import java.awt.event.ActionListener;
 /**
  * Created by erico on 11/11/14.
  */
-public class ClienteWindow extends JFrame{
+public class ClienteWindow extends JDialog{
     private ClienteController controller;
     private JTable mainTable;
     private JButton toolbarNew;
     private JButton toolbarUpdate;
     private JButton toolbarDetail;
     private JButton toolbarDelete;
+    private JPanel mainPanel;
 
     public ClienteWindow(ClienteController controller){
         this.controller = controller;
@@ -30,7 +31,7 @@ public class ClienteWindow extends JFrame{
         setMinimumSize(new Dimension(800, 600));
         pack();
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         updateTable();
     }
@@ -41,6 +42,18 @@ public class ClienteWindow extends JFrame{
             public void actionPerformed(ActionEvent actionEvent) {
                 new ClienteSaveDialog(ClienteWindow.this, controller, null);
                 updateTable();
+            }
+        });
+
+        toolbarDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if(mainTable.getSelectedRow() != -1){
+                    String cpf = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 1);
+                    Cliente c = Cliente.findByCpf(cpf);
+                    c.delete();
+                    updateTable();
+                }
             }
         });
 
@@ -92,8 +105,8 @@ public class ClienteWindow extends JFrame{
 
     private void setComponents() {
         mainTable = new JTable();
-        add(mainTable, BorderLayout.CENTER);
-        add(createToolbar(), BorderLayout.SOUTH);
+        mainPanel.add(mainTable, BorderLayout.CENTER);
+        mainPanel.add(createToolbar(), BorderLayout.SOUTH);
     }
 
     private JPanel createToolbar() {
@@ -113,6 +126,7 @@ public class ClienteWindow extends JFrame{
     }
 
     private void setLayout() {
-        getContentPane().setLayout(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
+        setContentPane(mainPanel);
     }
 }

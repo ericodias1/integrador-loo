@@ -115,7 +115,7 @@ public class ClienteSaveDialog extends JDialog{
             tfNome.setText(cliente.getNome());
             tfCpf.setText(cliente.getCpf());
             tfRg.setText(cliente.getRg());
-            tfData_nascimento.setText(cliente.getData_nascimento().toString());
+//            tfData_nascimento.setText(cliente.getData_nascimento().toString());
             tfSexo.setText(cliente.getSexo().toString());
             tfEmail.setText(cliente.getEmail());
             tfTelefone.setText(cliente.getTelefone());
