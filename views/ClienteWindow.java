@@ -51,12 +51,10 @@ public class ClienteWindow extends JFrame{
                     String nome = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 0);
                     String cpf = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 1);
                     String rg = (String)  mainTable.getValueAt(mainTable.getSelectedRow(), 3);
-//                    String sexo_ = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 5);
-//                    Character sexo = sexo_.charAt(0);
+                    Character sexo_ = (Character) mainTable.getValueAt(mainTable.getSelectedRow(), 5);
                     String email = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 6);
                     String telefone = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 2);
                     String profissao = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 7);
-
                     Cliente cliente = new Cliente(nome, cpf, telefone, rg, null, 'M', email, profissao);
 
                     new ClienteSaveDialog(ClienteWindow.this, controller, cliente);
