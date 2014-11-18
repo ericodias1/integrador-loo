@@ -1,7 +1,7 @@
 package views;
 
 import controllers.ClienteController;
-import controllers.UserController;
+import controllers.LoginController;
 import models.Usuario;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  * Created by andre on 16/11/14.
  */
 public class LoginWindow extends JFrame{
-    private UserController controller;
+    private LoginController controller;
     private JButton toolbarCancel;
     private JButton toolbarLogin;
     private GridLayout formLayout;
@@ -22,7 +22,7 @@ public class LoginWindow extends JFrame{
     private JTextField tfPassword = new JTextField();;
 
 
-    public LoginWindow(UserController controller){
+    public LoginWindow(LoginController controller){
         this.controller= controller;
 
         setLayout();
@@ -93,7 +93,7 @@ public class LoginWindow extends JFrame{
     private void setLayout() {
         getContentPane().setLayout(new BorderLayout());
         internalPanel = new JPanel();
-        formLayout = new GridLayout(4,15);
+        formLayout = new GridLayout(2,2);
         internalPanel.setLayout(formLayout);
     }
 }
