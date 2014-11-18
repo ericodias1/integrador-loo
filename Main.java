@@ -1,17 +1,10 @@
-import controllers.ClienteController;
-import controllers.UserController;
-import models.Cliente;
-import models.Media;
+import controllers.LoginController;
 import models.Usuario;
-import sun.org.mozilla.javascript.Function;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class Main {
 
     public static void main(String[] args) {
-        new UserController();
+        new LoginController();
        // new ClienteController();
     }
 }
