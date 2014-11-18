@@ -54,6 +54,10 @@ public class Cliente extends Pessoa{
         }
     }
 
+    public void delete(){
+        db.delete(this);
+    }
+
     public static Cliente findByCpf(String cpf){
         return db.findByCpf(cpf);
     }

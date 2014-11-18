@@ -10,6 +10,5 @@ public class ClienteController {
     public ClienteController(){
 
         new ClienteWindow(this);
-
     }
 }
