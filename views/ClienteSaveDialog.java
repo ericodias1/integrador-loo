@@ -33,13 +33,13 @@ public class ClienteSaveDialog extends JDialog{
 
     // inputs
     private JTextField tfNome = new JTextField();
-    private JTextField tfCpf = new JTextField();;
-    private JTextField tfTelefone = new JTextField();;
-    private JTextField tfRg = new JTextField();;
-    private JTextField tfData_nascimento = new JTextField();;
-    private JTextField tfSexo = new JTextField();;
-    private JTextField tfEmail = new JTextField();;
-    private JTextField tfProfissao = new JTextField();;
+    private JTextField tfCpf = new JTextField();
+    private JTextField tfTelefone = new JTextField();
+    private JTextField tfRg = new JTextField();
+    private JTextField tfData_nascimento = new JTextField();
+    private JTextField tfSexo = new JTextField();
+    private JTextField tfEmail = new JTextField();
+    private JTextField tfProfissao = new JTextField();
 
     public ClienteSaveDialog(ClienteWindow parent, ClienteController controller, Cliente c) {
         super(parent, "Salvar cliente", true);
@@ -115,7 +115,7 @@ public class ClienteSaveDialog extends JDialog{
             tfNome.setText(cliente.getNome());
             tfCpf.setText(cliente.getCpf());
             tfRg.setText(cliente.getRg());
-//            tfData_nascimento.setText(cliente.getData_nascimento().toString());
+            tfData_nascimento.setText(cliente.getData_nascimento().toString());
             tfSexo.setText(cliente.getSexo().toString());
             tfEmail.setText(cliente.getEmail());
             tfTelefone.setText(cliente.getTelefone());

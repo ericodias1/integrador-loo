@@ -63,16 +63,19 @@ public class ClienteWindow extends JFrame{
             }
         });
 
-        toolbarDelete.addActionListener(new ActionListener() {
+        toolbarDetail.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(mainTable.getSelectedRow() != -1){
-                    String cpf = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 1);
-
-                    Cliente cliente = Cliente.findByCpf(cpf);
-                    cliente.delete();
-
-                    updateTable();
+                if(mainTable.getSelectedRow() == -1){
+                    JOptionPane.showMessageDialog(null, "Selecione um cliente na tabela", "Atenção", 2);
+                }else{
+                    int option = mainTable.getSelectedRow();
+                    String text = "";
+                    for(int i = 0; i < 8; i++){
+                        text += mainTable.getColumnName(i) + ": ";
+                        text += mainTable.getValueAt(option, i)+"\n";
+                    }
+                    JOptionPane.showMessageDialog(null, text, "Cliente - " + mainTable.getValueAt(option, 0), 1);
                 }
             }
         });

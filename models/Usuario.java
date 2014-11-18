@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by erico on 09/11/14.
  */
 public class Usuario extends Pessoa{
+    private static UsuarioDatabase db = new UsuarioDatabase();
     private String carteira_trabalho;
     private String login;
     private String senha;
@@ -40,4 +41,27 @@ public class Usuario extends Pessoa{
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public static boolean login(String login, String password){
+        return db.login(login, password);
+    }
+
+    public Usuario copy(Usuario u){
+        setNome(u.getNome());
+        setCpf(u.getCpf());
+        setTelefone(u.getTelefone());
+        setRg(u.getRg());
+        setData_nascimento(u.getData_nascimento());
+        setSexo(u.getSexo());
+        setEmail(u.getEmail());
+        return this;
+    }
+    public void salve(){
+        if(db.findByCpf(getCpf()) != null){
+            db.update(this);
+        }else{
+            db.insert(this);
+        }
+    }
+
 }
