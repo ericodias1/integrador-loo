@@ -12,12 +12,8 @@ public class HomeWindow extends JFrame {
     private JPanel mainPanel;
     private HomeController controller;
     private JMenuBar menuBar;
-    private JMenu fileMenu;
-    private JMenu editMenu;
-    private JMenuItem openMenuItem;
-    private JMenuItem cutMenuItem;
-    private JMenuItem copyMenuItem;
-    private JMenuItem pasteMenuItem;
+    private JMenu LocarMenu;
+    private JMenu DevolverMenu;
 
     public HomeWindow(HomeController controller){
         super("LocaFix - Gerenciamento de video-locadoras");
@@ -41,23 +37,13 @@ public class HomeWindow extends JFrame {
         menuBar = new JMenuBar();
 
         // build the File menu
-        fileMenu = new JMenu("File");
-        openMenuItem = new JMenuItem("Open");
-        //openMenuItem.addActionListener(this);
-        fileMenu.add(openMenuItem);
-
+        LocarMenu = new JMenu("Locar");
         // build the Edit menu
-        editMenu = new JMenu("Edit");
-        cutMenuItem = new JMenuItem("Cut");
-        copyMenuItem = new JMenuItem("Copy");
-        pasteMenuItem = new JMenuItem("Paste");
-        editMenu.add(cutMenuItem);
-        editMenu.add(copyMenuItem);
-        editMenu.add(pasteMenuItem);
+        DevolverMenu = new JMenu("Devolver");
+        // sub = new JMenuItem("name");
 
-        // add menus to menubar
-        menuBar.add(fileMenu);
-        menuBar.add(editMenu);
+        menuBar.add(LocarMenu);
+        menuBar.add(DevolverMenu);
 
         mainPanel.add(menuBar, BorderLayout.NORTH);
     }
