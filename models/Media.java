@@ -1,26 +1,44 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by erico on 09/11/14.
  */
 public class Media {
+    private static MediaDatabase db = new MediaDatabase();
     private String titulo;
     private Date data_lancamento;
     private String genero;
-    private int classificacao;
+    private Integer classificacao;
+    private Integer id;
     private Double preco;
-    private boolean disponivel;
+    private Boolean disponivel;
 
-    public Media(String titulo, Date data_lancamento, String genero, int classificacao, Double preco, boolean disponivel) {
+    public Media(String titulo, Date data_lancamento, String genero, Integer classificacao, Double preco, Boolean disponivel) {
         this.titulo = titulo;
         this.data_lancamento = data_lancamento;
         this.genero = genero;
         this.classificacao = classificacao;
         this.preco = preco;
         this.disponivel = disponivel;
+        this.id = null;
     }
+
+    public Media copy(Media m){
+        setClassificacao(m.getClassificacao());
+        setData_lancamento(m.getData_lancamento());
+        setDisponivel(m.isDisponivel());
+        setGenero(m.getGenero());
+        setPreco(m.getPreco());
+        setTitulo(m.getTitulo());
+        return this;
+    }
+
+    public void setId(Integer id){ this.id = id; }
+
+    public Integer getId(){ return id; }
 
     public String getTitulo() {
         return titulo;
@@ -46,11 +64,11 @@ public class Media {
         this.genero = genero;
     }
 
-    public int getClassificacao() {
+    public Integer getClassificacao() {
         return classificacao;
     }
 
-    public void setClassificacao(int classificacao) {
+    public void setClassificacao(Integer classificacao) {
         this.classificacao = classificacao;
     }
 
@@ -62,11 +80,39 @@ public class Media {
         this.preco = preco;
     }
 
-    public boolean isDisponivel() {
+    public Boolean isDisponivel() {
         return disponivel;
     }
 
-    public void setDisponivel(boolean disponivel) {
+    public void setDisponivel(Boolean disponivel) {
         this.disponivel = disponivel;
+    }
+
+    public void save(){
+        if(getId() == null){
+            db.insert(this);
+        }else{
+            if(db.findById(getId()) != null){
+                db.update(this);
+            }else{
+                db.insert(this);
+            }
+        }
+    }
+
+    public void delete(){
+        db.delete(this);
+    }
+
+    public static Media findById(Integer id){
+        return db.findById(id);
+    }
+
+    public static ArrayList<Media> all(){
+        return db.all();
+    }
+
+    public String toString(){
+        return "ID: "+getId()+" Título: "+getTitulo();
     }
 }

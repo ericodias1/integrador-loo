@@ -35,7 +35,6 @@ public class Cliente extends Pessoa{
 
     public Cliente copy(Cliente c){
         setNome(c.getNome());
-        setCpf(c.getCpf());
         setTelefone(c.getTelefone());
         setRg(c.getRg());
         setData_nascimento(c.getData_nascimento());

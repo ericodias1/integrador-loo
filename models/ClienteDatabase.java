@@ -23,10 +23,6 @@ public class ClienteDatabase implements ClienteDao{
         db.close();
     }
 
-    public void save(){
-
-    }
-
     public void insert(Cliente c){
         try{
             if(findByCpf(c.getCpf()) != null) throw new RuntimeException("Cliente já existe!");
