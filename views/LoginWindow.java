@@ -1,6 +1,7 @@
 package views;
 
 import controllers.ClienteController;
+import controllers.LocarController;
 import controllers.LoginController;
 import models.Usuario;
 
@@ -52,7 +53,8 @@ public class LoginWindow extends JFrame{
                 if(validate){
                     boolean login = Usuario.login(user, passwd);
                     if(login){
-                        new ClienteController();
+                        //new ClienteController();
+                        new LocarController();
                         dispose();
                     }else{
                         JOptionPane.showMessageDialog(internalPanel, "Erro ao logar, verifique usuário e senha", "Erro", 0);
