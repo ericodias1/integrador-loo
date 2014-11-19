@@ -71,8 +71,7 @@ public class MediaDatabase implements MediaDao{
     public void update(Media m) {
         try{
             openDB();
-            Media media = new Media(null, null, null, null, null, null);
-            media.setId(m.getId());
+            Media media = new Media(null, null, null, null, null, null, m.getId());
             ObjectSet<Media> query = db.queryByExample(media);
             while(query.hasNext()) db.store(query.next().copy(m));
             db.commit();
@@ -86,8 +85,7 @@ public class MediaDatabase implements MediaDao{
     @Override
     public Media findById(int id) {
         List<Media> result = null;
-        Media m = new Media(null, null, null, null, null, null);
-        m.setId(id);
+        Media m = new Media(null, null, null, null, null, null, id);
         result = find(m);
         if(result.size() > 0) return result.get(0);
         return null;
@@ -95,6 +93,6 @@ public class MediaDatabase implements MediaDao{
 
     @Override
     public ArrayList<Media> all() {
-        return find(new Media(null, null, null, null, null, null));
+        return find(new Media(null, null, null, null, null, null, null));
     }
 }

@@ -16,14 +16,14 @@ public class Media {
     private Double preco;
     private Boolean disponivel;
 
-    public Media(String titulo, Date data_lancamento, String genero, Integer classificacao, Double preco, Boolean disponivel) {
+    public Media(String titulo, Date data_lancamento, String genero, Integer classificacao, Double preco, Boolean disponivel, Integer id) {
         this.titulo = titulo;
         this.data_lancamento = data_lancamento;
         this.genero = genero;
         this.classificacao = classificacao;
         this.preco = preco;
         this.disponivel = disponivel;
-        this.id = null;
+        this.id = id;
     }
 
     public Media copy(Media m){
