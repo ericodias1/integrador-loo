@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -64,4 +65,19 @@ public class Usuario extends Pessoa{
         }
     }
 
+    public void delete(){
+        db.delete(this);
+    }
+
+    public static Usuario findByCpf(String cpf){
+        return db.findByCpf(cpf);
+    }
+
+    public static ArrayList<Usuario> all(){
+        return db.all();
+    }
+
+    public String toString(){
+        return "CPF: "+getCpf()+"\nNome: "+getNome()+"\nCarteira de trabalho: "+getCarteira_trabalho()+"\nLogin: "+getLogin();
+    }
 }

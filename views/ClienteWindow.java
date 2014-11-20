@@ -99,7 +99,6 @@ public class ClienteWindow extends JDialog{
         for(Cliente c : Cliente.all()){
             model.addRow(new Object[]{c.getNome(), c.getCpf(), c.getTelefone(), c.getRg(), c.getData_nascimento(), c.getSexo(), c.getEmail(), c.getProfissao(), c.getScore()});
         }
-
         mainTable.setModel(model);
     }
 

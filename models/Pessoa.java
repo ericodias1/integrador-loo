@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by erico on 09/11/14.
  */
-public class Pessoa {
+public abstract class Pessoa {
     private String nome;
     private String cpf;
     private String telefone;
