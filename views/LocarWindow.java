@@ -8,6 +8,7 @@ import controllers.LocarController;
 import models.Cliente;
 
 import java.awt.*;
+import java.util.Vector;
 
 /**
  * Created by andre on 18/11/14.
@@ -17,8 +18,8 @@ public class LocarWindow extends JDialog {
     private LocarController controller;
     private JButton toolbarCancel;
     private JButton toolbarLoc;
-    private JTable mediaTable = new JTable();
-    private JTable clientTable = new JTable();
+    private JTable mediaTable;
+    private JTable clientTable;
 
     public LocarWindow(LocarController controller){
         this.controller = controller;
@@ -39,6 +40,8 @@ public class LocarWindow extends JDialog {
     }
 
     private void setComponents() {
+        clientTable = new JTable();
+        mediaTable = new JTable();
 
         prepareMediaTable();
         prepareClientTable();
@@ -47,7 +50,7 @@ public class LocarWindow extends JDialog {
     }
 
     private void prepareMediaTable() {
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome", "Genero"},0);
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Nome", "Genero"},0);
         model.addRow(new Object[]{"Jogos vorazes", "Aventura"});
         /*Criar um acessador para todas as medias
         }*/
@@ -80,6 +83,7 @@ public class LocarWindow extends JDialog {
     }
 
     public JPanel createInternalPanel() {
+
         JPanel loclPanel = new JPanel(new BorderLayout());
         GridLayout dataGrid = new GridLayout(0,2);
         dataGrid.setHgap(30);
@@ -91,8 +95,10 @@ public class LocarWindow extends JDialog {
         topPanel.add(new JLabel("Selecionar Cliente:"));
         topPanel.add(new JLabel("Selecionar Medias:"));
         clientTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        centerPanel.add(clientTable);
-        centerPanel.add(mediaTable);
+        JScrollPane scrollPane = new JScrollPane(clientTable);
+        JScrollPane scrollPane2 = new JScrollPane(mediaTable);
+        centerPanel.add(scrollPane);
+        centerPanel.add(scrollPane2);
 
         loclPanel.add(topPanel, BorderLayout.NORTH);
         loclPanel.add(centerPanel, BorderLayout.CENTER);
