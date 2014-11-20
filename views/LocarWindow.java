@@ -9,6 +9,7 @@ import models.Cliente;
 import models.Media;
 
 import java.awt.*;
+import java.util.Date;
 import java.util.Vector;
 
 /**
@@ -52,7 +53,8 @@ public class LocarWindow extends JDialog {
 
     private void prepareMediaTable() {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"BarCODE", "Nome", "Genero"},0);
-        for(Media m : controller.getMedias()){
+
+        for(Media m : controller.getMedias()) {
             model.addRow(new Object[]{m.getId(), m.getTitulo(), m.getGenero()});
         }
         mediaTable.setModel(model);

@@ -14,6 +14,8 @@ public class LocarController {
     }
 
     public ArrayList<Media> getMedias() {
-        return Media.all();
+        ArrayList<Media> medias = Media.all();
+        if(medias.size() > 0) return medias;
+        return new ArrayList<Media>();
     }
 }
