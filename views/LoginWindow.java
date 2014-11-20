@@ -1,6 +1,7 @@
 package views;
 
 import controllers.ClienteController;
+import controllers.HomeController;
 import controllers.LocarController;
 import controllers.LoginController;
 import models.Usuario;
@@ -20,7 +21,7 @@ public class LoginWindow extends JFrame{
     private GridLayout formLayout;
     private JPanel internalPanel;
     private JTextField tfUser = new JTextField();
-    private JTextField tfPassword = new JTextField();;
+    private JPasswordField tfPassword = new JPasswordField();
 
 
     public LoginWindow(LoginController controller){
@@ -53,8 +54,7 @@ public class LoginWindow extends JFrame{
                 if(validate){
                     boolean login = Usuario.login(user, passwd);
                     if(login){
-                        //new ClienteController();
-                        new LocarController();
+                        new HomeController();
                         dispose();
                     }else{
                         JOptionPane.showMessageDialog(internalPanel, "Erro ao logar, verifique usuário e senha", "Erro", 0);

@@ -54,6 +54,20 @@ public class ClienteSaveDialog extends JDialog{
         setVisible(true);
     }
 
+    public ClienteSaveDialog(JFrame parent, ClienteController controller, Cliente c) {
+        super(parent, "Salvar cliente", true);
+        this.controller = controller;
+        this.cliente = c;
+
+        setLayout();
+        setComponents();
+        setEvents();
+
+        setMinimumSize(new Dimension(500,400));
+        setVisible(true);
+    }
+
+
     private void setEvents() {
         btSave.addActionListener(new ActionListener() {
             @Override

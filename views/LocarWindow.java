@@ -9,6 +9,8 @@ import models.Cliente;
 import models.Media;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.Vector;
 
@@ -18,10 +20,10 @@ import java.util.Vector;
 public class LocarWindow extends JDialog {
     private JPanel mainPanel;
     private LocarController controller;
-    private JButton toolbarCancel;
-    private JButton toolbarLoc;
     private JTable mediaTable;
     private JTable clientTable;
+    private JButton cancel;
+    private JButton save;
 
     public LocarWindow(LocarController controller){
         this.controller = controller;
@@ -73,17 +75,22 @@ public class LocarWindow extends JDialog {
     private Component createToolbar() {
         JPanel panel = new JPanel();
 
-        toolbarLoc = new JButton("Locar");
-        toolbarCancel = new JButton("Cancelar");
+        save = new JButton("Locar");
+        cancel = new JButton("Cancelar");
 
-        panel.add(toolbarLoc);
-        panel.add(toolbarCancel);
+        panel.add(save);
+        panel.add(cancel);
 
         return panel;
     }
 
     private void setEvents() {
-
+        cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 
     public JPanel createInternalPanel() {
