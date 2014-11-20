@@ -4,6 +4,8 @@ import controllers.HomeController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by andre on 19/11/14.
@@ -36,9 +38,7 @@ public class HomeWindow extends JFrame {
 
         menuBar = new JMenuBar();
 
-        // build the File menu
         LocarMenu = new JMenu("Locar");
-        // build the Edit menu
         DevolverMenu = new JMenu("Devolver");
         // sub = new JMenuItem("name");
 
