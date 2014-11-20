@@ -26,10 +26,6 @@ public class UsuarioDatabase implements UsuarioDao{
         db.close();
     }
 
-    public void save(){
-
-    }
-
     @Override
     public void insert(Usuario u) {
         try{
@@ -77,7 +73,7 @@ public class UsuarioDatabase implements UsuarioDao{
     public void update(Usuario u) {
         try{
             openDB();
-            ObjectSet<Usuario> query = db.queryByExample(new Cliente(null, u.getCpf(), null, null, null, null, null, null));
+            ObjectSet<Usuario> query = db.queryByExample(new Usuario(null, u.getCpf(), null, null, null, null, null, null, null, null));
             while(query.hasNext()) db.store(query.next().copy(u));
             db.commit();
         }catch (Exception e){

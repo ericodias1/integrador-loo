@@ -8,7 +8,6 @@ import views.LoginWindow;
  */
 public class ClienteController {
     public ClienteController(){
-
         new ClienteWindow(this);
     }
 }
