@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import controllers.HomeController;
 import controllers.LocarController;
 import models.Cliente;
+import models.Media;
 
 import java.awt.*;
 
@@ -47,10 +48,10 @@ public class LocarWindow extends JDialog {
     }
 
     private void prepareMediaTable() {
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome", "Genero"},0);
-        model.addRow(new Object[]{"Jogos vorazes", "Aventura"});
-        /*Criar um acessador para todas as medias
-        }*/
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"BarCODE", "Nome", "Genero"},0);
+        for(Media m : controller.getMedias()){
+            model.addRow(new Object[]{m.getId(), m.getTitulo(), m.getGenero()});
+        }
         mediaTable.setModel(model);
     }
 
