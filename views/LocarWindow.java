@@ -59,6 +59,7 @@ public class LocarWindow extends JDialog {
 
     private void prepareClientTable() {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome", "CPF"}, 0);
+
         for(Cliente c : Cliente.all()){
             model.addRow(new Object[]{c.getNome(), c.getCpf()});
         }
@@ -85,18 +86,25 @@ public class LocarWindow extends JDialog {
     public JPanel createInternalPanel() {
 
         JPanel loclPanel = new JPanel(new BorderLayout());
+
         GridLayout dataGrid = new GridLayout(0,2);
         dataGrid.setHgap(30);
+
         JPanel centerPanel = new JPanel(dataGrid);
+
         GridLayout titleGrid = new GridLayout(0,2);
         titleGrid.setHgap(30);
+
         JPanel topPanel = new JPanel(titleGrid);
 
         topPanel.add(new JLabel("Selecionar Cliente:"));
         topPanel.add(new JLabel("Selecionar Medias:"));
+
         clientTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         JScrollPane scrollPane = new JScrollPane(clientTable);
         JScrollPane scrollPane2 = new JScrollPane(mediaTable);
+
         centerPanel.add(scrollPane);
         centerPanel.add(scrollPane2);
 
