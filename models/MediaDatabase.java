@@ -27,7 +27,6 @@ public class MediaDatabase implements MediaDao{
     @Override
     public void insert(Media m) {
         try{
-            m.setId(m.hashCode());
             openDB();
             db.store(m);
             db.commit();
