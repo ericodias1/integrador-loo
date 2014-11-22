@@ -11,6 +11,7 @@ import models.Media;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
@@ -88,6 +89,23 @@ public class LocarWindow extends JDialog {
         cancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Integer> ids = new ArrayList<Integer>();
+                Integer code = 0;
+
+                for(Integer selected :mediaTable.getSelectedRows()){
+                    code = (Integer)mediaTable.getValueAt(selected, 0);
+                    ids.add(code);
+                }
+
+                String user = (String)clientTable.getValueAt(clientTable.getSelectedRow(), 1);
+                controller.preparSave(user, ids);
                 dispose();
             }
         });

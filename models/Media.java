@@ -88,6 +88,13 @@ public class Media {
         this.disponivel = disponivel;
     }
 
+    public String getStatus(){
+        if(this.disponivel){
+            return "Disponível";
+        }
+        return "Locada";
+    }
+
     public void save(){
         if(getId() == null){
             db.insert(this);
@@ -113,6 +120,6 @@ public class Media {
     }
 
     public String toString(){
-        return "ID: "+getId()+" Título: "+getTitulo();
+        return "ID: "+getId()+"\nTítulo: "+getTitulo()+"\nPreço: "+getPreco()+"\nGenero: "+getGenero()+"\n Status: "+getStatus()+"\nClassificação: "+getClassificacao()+"\nData lançamento: "+getData_lancamento();
     }
 }

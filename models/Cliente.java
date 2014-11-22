@@ -64,4 +64,9 @@ public class Cliente extends Pessoa{
     public static ArrayList<Cliente> all(){
         return db.all();
     }
+
+    public String toString(){
+        return "CPF: "+getCpf()+"\nNome: "+getNome()+"\nprofissao: "+getProfissao()+"\nScore: "+getScore()+"\nEmail: "+getEmail()+"\nRG: "+getRg()+"\nTelefone: "+getTelefone()+"\nSexo: "+getSexo()+"\nData de nascimento: "+getData_nascimento();
+
+    }
 }

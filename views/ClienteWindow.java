@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 public class ClienteWindow extends JDialog{
     private ClienteController controller;
     private JTable mainTable;
+    private JScrollPane scroolPanel;
     private JButton toolbarNew;
     private JButton toolbarUpdate;
     private JButton toolbarDetail;
@@ -80,31 +81,28 @@ public class ClienteWindow extends JDialog{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(mainTable.getSelectedRow() == -1){
-                    JOptionPane.showMessageDialog(null, "Selecione um cliente na tabela", "Atenção", 2);
+                    JOptionPane.showMessageDialog(null, "Selecione um usuário na tabela", "Atenção", 2);
                 }else{
-                    int option = mainTable.getSelectedRow();
-                    String text = "";
-                    for(int i = 0; i < 8; i++){
-                        text += mainTable.getColumnName(i) + ": ";
-                        text += mainTable.getValueAt(option, i)+"\n";
-                    }
-                    JOptionPane.showMessageDialog(null, text, "Cliente - " + mainTable.getValueAt(option, 0), 1);
+                    String cpf = (String) mainTable.getValueAt(mainTable.getSelectedRow(), 1);
+                    Cliente c = Cliente.findByCpf(cpf);
+                    JOptionPane.showMessageDialog(null, c.toString(), "Usuário - " + cpf, 1);
                 }
             }
         });
     }
 
     private void updateTable() {
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome", "CPF", "Telefone", "RG", "Data de nascimento", "Sexo", "E-mail","Profissao", "Score"}, 0);
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome", "CPF" ,"Telefone", "Data de nascimento", "E-mail", "Score"}, 0);
         for(Cliente c : Cliente.all()){
-            model.addRow(new Object[]{c.getNome(), c.getCpf(), c.getTelefone(), c.getRg(), c.getData_nascimento(), c.getSexo(), c.getEmail(), c.getProfissao(), c.getScore()});
+            model.addRow(new Object[]{c.getNome(),c.getCpf(), c.getTelefone(), c.getData_nascimento(), c.getEmail(), c.getScore()});
         }
         mainTable.setModel(model);
     }
 
     private void setComponents() {
         mainTable = new JTable();
-        mainPanel.add(mainTable, BorderLayout.CENTER);
+        scroolPanel = new JScrollPane(mainTable);
+        mainPanel.add(scroolPanel, BorderLayout.CENTER);
         mainPanel.add(createToolbar(), BorderLayout.SOUTH);
     }
 

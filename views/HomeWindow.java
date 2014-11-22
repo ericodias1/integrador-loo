@@ -1,9 +1,6 @@
 package views;
 
-import controllers.ClienteController;
-import controllers.HomeController;
-import controllers.LocarController;
-import controllers.MediaController;
+import controllers.*;
 import models.Cliente;
 import models.Usuario;
 
@@ -22,8 +19,12 @@ public class HomeWindow extends JFrame {
     private HomeController controller;
     private JMenuBar menuBar;
     private JMenu LocarMenu;
+    private JMenu ListMenu;
     private JMenu Crud;
     private JMenu ExitMenu;
+    private JMenuItem listUsuario;
+    private JMenuItem listCliente;
+    private JMenuItem listMedia;
     private JMenuItem crudMedia;
     private JMenuItem crudCliente;
     private JMenuItem crudUsuario;
@@ -51,8 +52,17 @@ public class HomeWindow extends JFrame {
         menuBar = new JMenuBar();
 
         LocarMenu = new JMenu("Locar");
+        ListMenu = new JMenu("Listar");
         ExitMenu = new JMenu("Exit");
         //DevolverMenu = new JMenu("Devolver");
+
+        listUsuario = new JMenuItem ("Usuario");
+        listCliente = new JMenuItem ("Cliente");
+        listMedia   = new JMenuItem ("Media");
+        ListMenu.add(listUsuario);
+        ListMenu.add(listCliente);
+        ListMenu.add(listMedia);
+
         Crud = new JMenu("Cadastros");
         crudMedia = new JMenuItem("Media");
         crudUsuario = new JMenuItem("Usuario");
@@ -64,6 +74,7 @@ public class HomeWindow extends JFrame {
 
         menuBar.add(LocarMenu);
         menuBar.add(Crud);
+        menuBar.add(ListMenu);
         menuBar.add(ExitMenu);
 
         mainPanel.add(menuBar, BorderLayout.NORTH);
@@ -84,13 +95,15 @@ public class HomeWindow extends JFrame {
         crudMedia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MediaController();
+                MediaController mc = new MediaController();
+                mc.createDialog(HomeWindow.this);
             }
         });
         crudUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //new UsuarioController();
+                UsuarioController u = new UsuarioController();
+                u.createDialog(HomeWindow.this);
             }
         });
         LocarMenu.addMouseListener(new MouseListener() {
@@ -101,7 +114,8 @@ public class HomeWindow extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                new LocarController();
+                LocarController lc = new LocarController();
+                lc.ListDialog();
             }
 
             @Override
@@ -121,28 +135,48 @@ public class HomeWindow extends JFrame {
         });
         ExitMenu.addMouseListener(new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
+            public void mouseClicked(MouseEvent e) { }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                System.exit(0);
+                Integer result = JOptionPane.showConfirmDialog(mainPanel,"Deseja realmente sair?","Sair - LocaFix",0);
+                System.out.println(result);
+                if(result == 0){
+                    System.exit(0);
+                }
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
+            public void mouseReleased(MouseEvent e) { }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
+            public void mouseEntered(MouseEvent e) { }
 
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(MouseEvent e) { }
+        });
 
+        listCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ClienteController cc = new ClienteController();
+                cc.listCliente();
+            }
+        });
+
+        listMedia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MediaController mc = new MediaController();
+                mc.listDialog();
+            }
+        });
+
+        listUsuario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UsuarioController uc = new UsuarioController();
+                uc.ListController();
             }
         });
     }

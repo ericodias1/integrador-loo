@@ -35,6 +35,19 @@ public class UsuarioSaveDialog extends JDialog{
     private JTextField tfLogin = new JTextField();
     private JTextField tfSenha = new JTextField();
 
+    public UsuarioSaveDialog(JFrame parent, UsuarioController controller, Usuario u) {
+        super(parent,"Salvar Usuário", true);
+        this.controller = controller;
+        this.usuario = u;
+
+        setLayout();
+        setComponents();
+        setEvents();
+
+        setMinimumSize(new Dimension(500, 400));
+        setVisible(true);
+    }
+
     public UsuarioSaveDialog(UsuarioWindow parent, UsuarioController controller, Usuario u) {
         super(parent,"Salvar Usuário", true);
         this.controller = controller;

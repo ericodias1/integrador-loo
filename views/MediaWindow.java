@@ -4,146 +4,128 @@ import controllers.MediaController;
 import models.Media;
 
 import javax.swing.*;
-import javax.swing.text.html.parser.Parser;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 /**
- * Created by andre on 19/11/14.
+ * Created by andre on 20/11/14.
  */
-public class MediaWindow extends JDialog {
-    private Media media;
+public class MediaWindow extends JDialog{
     private MediaController controller;
-    /*Panels*/
-    private JPanel geralPanel;
-    private JPanel northPanel;
-    private JPanel southPanel;
-    private JPanel centerPanel;
-    /*Buttons*/
-    private JButton saveButtom;
-    private JButton cancelButtom;
-    /*Texfiels*/
-    private JTextField idTf;
-    private JTextField tituloTf;
-    private JTextField dataTf;
-    private JTextField generoTf;
-    private JTextField classificacaoTf;
-    private JTextField precoTf;
-    /*Checkbox*/
-    private JCheckBox disponivelTf;
+    private JPanel mainPanel;
+    private JTable mainTable;
+    private JButton toolbarNew;
+    private JButton toolbarEdit;
+    private JButton toolbarDetail;
+    private JButton toolbarDelete;
+    private JScrollPane scroolPanel;
 
 
-    public MediaWindow(MediaController controller, Media m){
-        this.media = m;
+    public MediaWindow(MediaController controller){
         this.controller = controller;
 
         setLayout();
         setComponents();
         setEvents();
 
-        setMinimumSize(new Dimension(500, 400));
+        setMinimumSize(new Dimension(800, 600));
         pack();
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        updateTable();
+    }
+
+    private void updateTable(){
+        DefaultTableModel model = new DefaultTableModel(new Object[] {"ID", "Titulo", "Genero", "Valor", "Status"}, 0);
+        for(Media m : Media.all()){
+            model.addRow(new Object[]{m.getId(), m.getTitulo(), m.getGenero(), m.getPreco(), m.getStatus()});
+        }
+        mainTable.setModel(model);
     }
 
     private void setLayout(){
-        geralPanel = new JPanel(new BorderLayout());
-        southPanel = new JPanel(new FlowLayout());
-        GridLayout grid = new GridLayout(0,2);
-        grid.setVgap(20);
-        grid.setVgap(20);
+        mainPanel = new JPanel(new BorderLayout());
+        setContentPane(mainPanel);
+    }
 
-        centerPanel = new JPanel(grid);
+    private JPanel createToolbar() {
+        JPanel panel = new JPanel();
 
-        northPanel = new JPanel(new FlowLayout());
-        northPanel.add(new JLabel("CADASTRO DE MEDIAS - LOCAFIX"));
+        toolbarNew = new JButton("Novo");
+        toolbarEdit = new JButton("Editar");
+        toolbarDetail = new JButton("Detalhar");
+        toolbarDelete = new JButton("Excluir");
 
-        geralPanel.add(northPanel, BorderLayout.NORTH);
-        geralPanel.add(centerPanel, BorderLayout.CENTER);
-        geralPanel.add(southPanel, BorderLayout.SOUTH);
+        panel.add(toolbarNew);
+        panel.add(toolbarEdit);
+        panel.add(toolbarDetail);
+        panel.add(toolbarDelete);
 
-        setContentPane(geralPanel);
+        return panel;
     }
 
     private void setComponents(){
-
-        this.idTf = new JTextField();
-        this.tituloTf =  new JTextField();
-        this.dataTf = new JTextField();
-        this.generoTf = new JTextField();
-        this.classificacaoTf = new JTextField();
-        this.precoTf = new JTextField();
-        this.disponivelTf = new JCheckBox();
-
-        centerPanel.add(new JLabel("Código de barras:"));
-        centerPanel.add(idTf);
-        centerPanel.add(new JLabel("Titulo:"));
-        centerPanel.add(tituloTf);
-        centerPanel.add(new JLabel("Data lançamento:"));
-        centerPanel.add(dataTf);
-        centerPanel.add(new JLabel("Genero:"));
-        centerPanel.add(generoTf);
-        centerPanel.add(new JLabel("Classificação:"));
-        centerPanel.add(classificacaoTf);
-        centerPanel.add(new JLabel("Valor da Locação:"));
-        centerPanel.add(precoTf);
-        centerPanel.add(new JLabel("Disponível"));
-        centerPanel.add(disponivelTf);
-        FlowLayout bottomFlow = new FlowLayout();
-        JPanel bottomLayout = new JPanel(bottomFlow);
-
-        saveButtom = new JButton("Salvar");
-        cancelButtom = new JButton("Cancelar");
-
-        bottomLayout.add(saveButtom);
-        bottomLayout.add(cancelButtom);
-        southPanel.add(new JLabel());
-        southPanel.add(bottomLayout);
+        mainTable = new JTable();
+        scroolPanel = new JScrollPane(mainTable);
+        mainPanel.add(scroolPanel, BorderLayout.CENTER);
+        mainPanel.add(createToolbar(), BorderLayout.SOUTH);
     }
 
     private void setEvents(){
-        cancelButtom.addActionListener(new ActionListener() {
+        toolbarNew.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new MediaSaveDialog(MediaWindow.this, controller, null);
+                updateTable();
+            }
+        });
+
+        toolbarDetail.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int result = JOptionPane.showConfirmDialog(centerPanel, "Deseja realmente cancelar o cadastro de medias?", "Cadastro de Medias - Locafix",2);
-                if(result == 0){
-                    dispose();
+                if(mainTable.getSelectedRow() == -1){
+                    JOptionPane.showMessageDialog(null, "Selecione um usuário na tabela", "Atenção", 2);
+                }else{
+                    Integer id = (Integer) mainTable.getValueAt(mainTable.getSelectedRow(), 0);
+
+                    Media m = Media.findById(id);
+                    JOptionPane.showMessageDialog(null, m.toString(), "Media - " + id, 1);
                 }
             }
         });
 
-        saveButtom.addActionListener(new ActionListener() {
+        toolbarEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Integer id = Integer.parseInt(idTf.getText());
-                String titulo = tituloTf.getText();
-                Date data = new Date(2014,11,20);
-                String genero = generoTf.getText();
-                Integer classificacao = Integer.parseInt(classificacaoTf.getText());
-                Double preco = Double.parseDouble(precoTf.getText());
-                Object objDisponivel = disponivelTf.getSelectedObjects();
+                if(mainTable.getSelectedRow() != -1){
+                    Integer id = (Integer) mainTable.getValueAt(mainTable.getSelectedRow(), 0);
+                    Media m = Media.findById(id);
+                    System.out.println(m.toString());
 
-                Boolean disponivel;
-                if(objDisponivel != null){
-                    disponivel = true;
-                }else{
-                    disponivel = false;
+                    new MediaSaveDialog(MediaWindow.this, controller, m);
+                    updateTable();
                 }
-
-                if(media == null){
-                    media = new Media(titulo, data, genero, classificacao, preco, disponivel, id);
-                }else{
-                    media.copy(new Media(titulo, data, genero, 12, 2.50, disponivel, 12));
-                }
-                media.save();
-                Integer result = JOptionPane.showConfirmDialog(centerPanel,"Media Salva com sucesso!\nDeseja salvar outra media?","Cadastrar Media - Locafix", 0);
-                System.out.print(result);
             }
         });
 
+        toolbarDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(mainPanel, "Deseja realmente excluir esta media?", "Excluir media - LocaFix", 2);
+                System.out.println(result);
+                if(result == 0) {
+                    if(mainTable.getSelectedRow() != -1){
+                        Integer id = (Integer) mainTable.getValueAt(mainTable.getSelectedRow(), 0);
+                        Media m = Media.findById(id);
+                        m.delete();
+                        updateTable();
+                    }
+                }
+            }
+        });
     }
-
 }
+
