@@ -18,7 +18,7 @@ public class LocarController {
     }
 
     public void saveDialog(JFrame parent, ArrayList<Media> medias, Cliente c){
-        new LocarSaveDialog(parent,medias, c);
+        new LocarSaveDialog(parent,medias, c, this);
     }
 
     public ArrayList<Media> getMedias() {
