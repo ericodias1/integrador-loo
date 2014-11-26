@@ -7,6 +7,8 @@ import models.Media;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -112,6 +114,34 @@ public class LocarSaveDialog extends JDialog {
     }
 
     private void setEvents(){
+        cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(panel, "Deseja realmente cancelar a locação?","Locação - LocaFix", 2);
+                if(result == 0){
+                    dispose();
+                }
+            }
+        });
+
+        locar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!radio_cartao.isSelected() && !radio_dinheiro.isSelected() && !radio_devolucao.isSelected()){
+                    JOptionPane.showMessageDialog(panel, "É necessário selecionar uma forma de pagamento", "Erro - LocaFix",2);
+                }else{
+                    boolean pagamento = true;
+                    if(radio_devolucao.isSelected()){
+                        pagamento = false;
+                    }
+                    ArrayList<Integer> ids_medias = new ArrayList<Integer>();
+                    for(Media m : LocarSaveDialog.this.medias){
+                        ids_medias.add(m.getId());
+                    }
+                    LocarSaveDialog.this.controller.createLocation(LocarSaveDialog.this.c,ids_medias ,pagamento);
+                }
+            }
+        });
 
     }
 
