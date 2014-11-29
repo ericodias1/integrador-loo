@@ -139,6 +139,9 @@ public class LocarSaveDialog extends JDialog {
                         ids_medias.add(m.getId());
                     }
                     LocarSaveDialog.this.controller.createLocation(LocarSaveDialog.this.c,ids_medias ,pagamento);
+
+                    JOptionPane.showMessageDialog(panel, "A locação foi realizada com sucesso!", "Locação - LocaFix", 1);
+                    dispose();
                 }
             }
         });

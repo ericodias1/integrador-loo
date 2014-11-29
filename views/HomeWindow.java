@@ -123,6 +123,13 @@ public class HomeWindow extends JFrame {
                 lc.ListDialog();
             }
         });
+        devSubMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DevolverController dvc = new DevolverController();
+                dvc.ListDialog();
+            }
+        });
         exitSubMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

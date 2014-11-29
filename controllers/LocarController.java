@@ -52,7 +52,7 @@ public class LocarController {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 
-        Locacao loc = new Locacao(c,medias,(double)total,pagamento, true, timeStamp );
+        Locacao loc = new Locacao(c.getCpf(),medias,(double)total,pagamento, true, timeStamp );
         loc.save();
 
     }

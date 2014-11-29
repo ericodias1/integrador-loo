@@ -9,15 +9,15 @@ public class Locacao {
 
     private static LocacaoDatabase db = new LocacaoDatabase();
 
-    private Cliente c;
+    private String cliente;
     private ArrayList<Integer> medias;
     private Double valor;
     private Boolean pago;
     private Boolean locado;
     private String key;
 
-    public Locacao(Cliente c, ArrayList<Integer> medias, Double valor, Boolean pago, Boolean locado, String key){
-        this.c = c;
+    public Locacao(String c, ArrayList<Integer> medias, Double valor, Boolean pago, Boolean locado, String key){
+        this.cliente = c;
         this.medias = medias;
         this.valor = valor;
         this.pago = pago;
@@ -30,11 +30,13 @@ public class Locacao {
     }
 
     public Cliente getC() {
-        return c;
+        Cliente cli = Cliente.findByCpf(cliente);
+        return cli;
     }
 
     public void setC(Cliente c) {
-        this.c = c;
+
+        this.cliente = c.getCpf();
     }
 
     public ArrayList<Integer> getMedias() {
@@ -106,5 +108,12 @@ public class Locacao {
 
     public static ArrayList<Locacao> all(){
         return db.all();
+    }
+
+    public String getStatus() {
+        if(this.getLocado()){
+            return "Locado";
+        }
+        return "Devolvido";
     }
 }
