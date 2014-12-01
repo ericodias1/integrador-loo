@@ -122,4 +122,9 @@ public class Media {
     public String toString(){
         return "ID: "+getId()+"\nTítulo: "+getTitulo()+"\nPreço: "+getPreco()+"\nGenero: "+getGenero()+"\n Status: "+getStatus()+"\nClassificação: "+getClassificacao()+"\nData lançamento: "+getData_lancamento();
     }
+
+    public static ArrayList<Media> find(Media m) {
+        ArrayList<Media> medias = db.find(m);
+        return medias;
+    }
 }

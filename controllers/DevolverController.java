@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Locacao;
+import views.DevolverSaveDialog;
 import views.DevolverWindow;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class DevolverController {
 
     public ArrayList<Locacao> getActiveLocation() {
         ArrayList<Locacao> locs = new ArrayList<Locacao>();
-        for(Locacao loc : Locacao.all()){
+        for(Locacao loc : Locacao.all_leased()){
             locs.add(loc);
         }
         return locs;
@@ -23,6 +24,7 @@ public class DevolverController {
     }
 
     public void preparToDevolution(String id) {
-        System.out.println(id);
+        Locacao dev = Locacao.findByKey(id);
+        new DevolverSaveDialog(this, dev);
     }
 }

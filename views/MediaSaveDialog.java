@@ -107,6 +107,11 @@ public class MediaSaveDialog extends JDialog {
         centerPanel.add(new JLabel("Valor da Locação:"));
         centerPanel.add(precoTf);
         centerPanel.add(new JLabel("Disponível"));
+        if(media.getStatus().equals("Disponível")){
+            disponivelTf.setSelected(true);
+        }else{
+            disponivelTf.setSelected(false);
+        }
         centerPanel.add(disponivelTf);
         FlowLayout bottomFlow = new FlowLayout();
         JPanel bottomLayout = new JPanel(bottomFlow);

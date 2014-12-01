@@ -47,7 +47,9 @@ public class LocarController {
 
         for(Integer id : medias){
             Media m = Media.findById(id);
+            m.setDisponivel(false);
             total = (float) (total+m.getPreco());
+            m.save();
         }
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
@@ -55,5 +57,11 @@ public class LocarController {
         Locacao loc = new Locacao(c.getCpf(),medias,(double)total,pagamento, true, timeStamp );
         loc.save();
 
+    }
+
+    public ArrayList<Media> getAvaliableMedias() {
+        Media m =  new Media(null,null,null,null,null,true, null);
+        ArrayList<Media> medias = Media.find(m);
+        return medias;
     }
 }

@@ -57,7 +57,7 @@ public class LocarWindow extends JDialog {
     private void prepareMediaTable() {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"BarCODE", "Nome", "Genero"},0);
 
-        for(Media m : controller.getMedias()) {
+        for(Media m : controller.getAvaliableMedias()) {
             model.addRow(new Object[]{m.getId(), m.getTitulo(), m.getGenero()});
         }
         mediaTable.setModel(model);
@@ -103,10 +103,15 @@ public class LocarWindow extends JDialog {
                     code = (Integer)mediaTable.getValueAt(selected, 0);
                     ids.add(code);
                 }
-
-                String user = (String)clientTable.getValueAt(clientTable.getSelectedRow(), 1);
-                controller.preparSave(user, ids);
-                dispose();
+                if(ids.size()  == 0 ){
+                    JOptionPane.showMessageDialog(mainPanel, "É necessário selecioanr ao menos uma media!");
+                }else if(clientTable.getSelectedRow() == -1){
+                    JOptionPane.showMessageDialog(mainPanel, "É necessário selecioanr ao menos um cliente!");
+                }else {
+                    String user = (String) clientTable.getValueAt(clientTable.getSelectedRow(), 1);
+                    controller.preparSave(user, ids);
+                    dispose();
+                }
             }
         });
     }

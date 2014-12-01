@@ -110,6 +110,13 @@ public class Locacao {
         return db.all();
     }
 
+    public static ArrayList<Locacao> all_leased(){
+        ArrayList<Locacao> locs;
+        Locacao loc = new Locacao(null, null, null,null,true, null);
+        locs = db.find(loc);
+        return locs;
+    }
+
     public String getStatus() {
         if(this.getLocado()){
             return "Locado";
