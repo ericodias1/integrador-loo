@@ -87,7 +87,6 @@ public class MediaSaveDialog extends JDialog {
     }
 
     private void setComponents(){
-<<<<<<< HEAD
         try{
             this.idTf = new JTextField();
             this.tituloTf =  new JTextField();
@@ -133,6 +132,7 @@ public class MediaSaveDialog extends JDialog {
 
             if(media != null){
                 idTf.setText(media.getId().toString());
+                idTf.setEnabled(false);
                 tituloTf.setText(media.getTitulo());
                 dataTf.setText(media.getData_lancamento().getDate()+"/"+(media.getData_lancamento().getMonth()+1)+"/"+media.getData_lancamento().getYear());
                 generoTf.setText(media.getGenero());
