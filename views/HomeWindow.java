@@ -40,7 +40,7 @@ public class HomeWindow extends JFrame {
         //setComponents();
         setEvents();
 
-        setMinimumSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(500, 450));
         pack();
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -86,7 +86,10 @@ public class HomeWindow extends JFrame {
         menuBar.add(crud);
         menuBar.add(listMenu);
         menuBar.add(exitMenu);
-
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.X_AXIS));
+        centerPanel.add(new JLabel(new ImageIcon("logo-locafix.jpg")));
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
         mainPanel.add(menuBar, BorderLayout.NORTH);
     }
 

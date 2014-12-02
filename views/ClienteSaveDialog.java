@@ -4,9 +4,11 @@ import controllers.ClienteController;
 import models.Cliente;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 /**
  * Created by erico on 11/11/14.
@@ -36,7 +38,8 @@ public class ClienteSaveDialog extends JDialog{
     private JTextField tfCpf = new JTextField();
     private JTextField tfTelefone = new JTextField();
     private JTextField tfRg = new JTextField();
-    private JTextField tfData_nascimento = new JTextField();
+    private MaskFormatter maskDate;
+    private JFormattedTextField tfData_nascimento;
     private JTextField tfSexo = new JTextField();
     private JTextField tfEmail = new JTextField();
     private JTextField tfProfissao = new JTextField();
@@ -75,6 +78,8 @@ public class ClienteSaveDialog extends JDialog{
                 try{
                     String nome = tfNome.getText();
                     String cpf = tfCpf.getText();
+                    String[] date = tfData_nascimento.getText().split("/");
+                    Date data_nasc = new Date(Integer.parseInt(date[2]), (Integer.parseInt(date[1])-1), Integer.parseInt(date[0]));
                     String rg = tfRg.getText();
                     Character sexo = tfSexo.getText().charAt(0);
                     String email = tfEmail.getText();
@@ -82,9 +87,9 @@ public class ClienteSaveDialog extends JDialog{
                     String profissao = tfProfissao.getText();
 
                     if(cliente == null){
-                        cliente = new Cliente(nome, cpf, telefone, rg, null, sexo, email, profissao);
+                        cliente = new Cliente(nome, cpf, telefone, rg, data_nasc, sexo, email, profissao);
                     }else{
-                        cliente.copy(new Cliente(nome, cpf, telefone, rg, null, sexo, email, profissao));
+                        cliente.copy(new Cliente(nome, cpf, telefone, rg, data_nasc, sexo, email, profissao));
                     }
                     cliente.save();
 
@@ -98,43 +103,52 @@ public class ClienteSaveDialog extends JDialog{
     }
 
     private void setComponents() {
-        btSave = new JButton("Salvar");
-        panel.add(btSave, BorderLayout.SOUTH);
+        try{
+            btSave = new JButton("Salvar");
+            panel.add(btSave, BorderLayout.SOUTH);
 
-        internalPanel.add(new JLabel("Nome"));
-        internalPanel.add(tfNome);
+            internalPanel.add(new JLabel("Nome"));
+            internalPanel.add(tfNome);
 
-        internalPanel.add(new JLabel("CPF"));
-        internalPanel.add(tfCpf);
+            internalPanel.add(new JLabel("CPF"));
+            internalPanel.add(tfCpf);
 
-        internalPanel.add(new JLabel("RG"));
-        internalPanel.add(tfRg);
+            internalPanel.add(new JLabel("RG"));
+            internalPanel.add(tfRg);
 
-        internalPanel.add(new JLabel("Data de nascimento"));
-        internalPanel.add(tfData_nascimento);
+            this.maskDate = new MaskFormatter("##/##/####");
+            this.maskDate.setPlaceholderCharacter('_');
+            internalPanel.add(new JLabel("Data de nascimento"));
+            tfData_nascimento = new JFormattedTextField(maskDate);
+            internalPanel.add(tfData_nascimento);
 
-        internalPanel.add(new JLabel("Sexo"));
-        internalPanel.add(tfSexo);
+            internalPanel.add(new JLabel("Sexo"));
+            internalPanel.add(tfSexo);
 
-        internalPanel.add(new JLabel("E-mail"));
-        internalPanel.add(tfEmail);
+            internalPanel.add(new JLabel("E-mail"));
+            internalPanel.add(tfEmail);
 
-        internalPanel.add(new JLabel("Telefone"));
-        internalPanel.add(tfTelefone);
+            internalPanel.add(new JLabel("Telefone"));
+            internalPanel.add(tfTelefone);
 
-        internalPanel.add(new JLabel("Profissão"));
-        internalPanel.add(tfProfissao);
+            internalPanel.add(new JLabel("Profissão"));
+            internalPanel.add(tfProfissao);
 
-        if(cliente != null){
-            tfNome.setText(cliente.getNome());
-            tfCpf.setText(cliente.getCpf());
-            tfCpf.setEnabled(false);
-            tfRg.setText(cliente.getRg());
-//            tfData_nascimento.setText(cliente.getData_nascimento().toString());
-            tfSexo.setText(cliente.getSexo().toString());
-            tfEmail.setText(cliente.getEmail());
-            tfTelefone.setText(cliente.getTelefone());
-            tfProfissao.setText(cliente.getProfissao());
+            if(cliente != null){
+                tfNome.setText(cliente.getNome());
+                tfCpf.setText(cliente.getCpf());
+                tfCpf.setEnabled(false);
+                tfRg.setText(cliente.getRg());
+                String text_tfDataNascimento = cliente.getData_nascimento().getDay()+"/"+(cliente.getData_nascimento().getMonth()+1)+"/"+cliente.getData_nascimento().getYear();
+                System.out.println(text_tfDataNascimento);
+                tfData_nascimento.setText(text_tfDataNascimento);
+                tfSexo.setText(cliente.getSexo().toString());
+                tfEmail.setText(cliente.getEmail());
+                tfTelefone.setText(cliente.getTelefone());
+                tfProfissao.setText(cliente.getProfissao());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
