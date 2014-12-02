@@ -39,6 +39,6 @@ public class DevolverController {
             loc.setPago(true);
         }
         System.out.println(loc.toString());
-        //loc.save();
+        loc.save();
     }
 }
