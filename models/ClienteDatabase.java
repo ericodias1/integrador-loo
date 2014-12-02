@@ -3,6 +3,7 @@ package models;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.ext.DatabaseFileLockedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,11 @@ public class ClienteDatabase implements ClienteDao{
     public ClienteDatabase(){}
 
     private void openDB(){
-        db = Db4oEmbedded.openFile("database.db");
+        try {
+            db = Db4oEmbedded.openFile("database.db");
+        }catch (DatabaseFileLockedException e){
+            System.out.println("Database already opened.. skipping..");
+        }
     }
 
     private void closeDB(){
