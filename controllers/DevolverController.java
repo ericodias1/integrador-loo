@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Locacao;
+import models.Media;
 import views.DevolverSaveDialog;
 import views.DevolverWindow;
 
@@ -26,5 +27,18 @@ public class DevolverController {
     public void preparToDevolution(String id) {
         Locacao dev = Locacao.findByKey(id);
         new DevolverSaveDialog(this, dev);
+    }
+
+    public void salveDevolution(Locacao loc) {
+        loc.setLocado(false);
+        for(Integer id : loc.getMedias()){
+            Media m = Media.findById(id);
+            m.setDisponivel(true);
+        }
+        if(!loc.getPago()) {
+            loc.setPago(true);
+        }
+        System.out.println(loc.toString());
+        loc.save();
     }
 }

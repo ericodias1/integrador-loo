@@ -70,7 +70,8 @@ public class LocacaoDatabase implements LocacaoDao{
     public void update(Locacao loc) {
         try{
             openDB();
-            ObjectSet<Locacao> query = db.queryByExample(new Locacao(null, null, null, null, null, loc.getKey()));
+            Locacao loc_int = new Locacao(null, null, null, null, null, loc.getKey());
+            ObjectSet<Locacao> query = db.queryByExample(loc_int);
             if(query.hasNext()) db.store(query.next().copy(loc));
             db.commit();
         }catch (Exception e){

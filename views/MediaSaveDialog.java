@@ -87,6 +87,7 @@ public class MediaSaveDialog extends JDialog {
     }
 
     private void setComponents(){
+<<<<<<< HEAD
         try{
             this.idTf = new JTextField();
             this.tituloTf =  new JTextField();
@@ -111,10 +112,12 @@ public class MediaSaveDialog extends JDialog {
             centerPanel.add(new JLabel("Valor da Locação:"));
             centerPanel.add(precoTf);
             centerPanel.add(new JLabel("Disponível"));
-            if(media.getStatus().equals("Disponível")){
-                disponivelTf.setSelected(true);
-            }else{
-                disponivelTf.setSelected(false);
+            if(media != null) {
+		        if (media.getStatus().equals("Disponível")) {
+	                disponivelTf.setSelected(true);
+	            } else {
+	                disponivelTf.setSelected(false);
+	            }
             }
             centerPanel.add(disponivelTf);
             FlowLayout bottomFlow = new FlowLayout();
@@ -183,13 +186,8 @@ public class MediaSaveDialog extends JDialog {
                 Integer result = JOptionPane.showConfirmDialog(centerPanel,"Media Salva com sucesso!\nDeseja salvar outra media?","Cadastrar Media - Locafix", 0);
                 System.out.println(result);
                 if(result == 0){
-                    idTf.setText("");
-                    tituloTf.setText("");
-                    dataTf.setText("");
-                    generoTf.setText("");
-                    classificacaoTf.setText("");
-                    precoTf.setText("");
-                    disponivelTf.setSelected(false);
+                    dispose();
+                    controller.createDialog(null);
                 }else {
                     if (result == 1) MediaSaveDialog.this.dispose();
                 }
