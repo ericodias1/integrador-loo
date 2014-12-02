@@ -86,9 +86,9 @@ public class ClienteWindow extends JDialog{
     }
 
     private void updateTable() {
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome", "CPF" ,"Telefone", "Data de nascimento", "E-mail", "Score"}, 0);
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome", "CPF" ,"Telefone", "Data de nascimento", "E-mail"}, 0);
         for(Cliente c : Cliente.all()){
-            model.addRow(new Object[]{c.getNome(),c.getCpf(), c.getTelefone(), c.getData_nascimento(), c.getEmail(), c.getScore()});
+            model.addRow(new Object[]{c.getNome(),c.getCpf(), c.getTelefone(), c.getData_nascimento(), c.getEmail()});
         }
         mainTable.setModel(model);
     }

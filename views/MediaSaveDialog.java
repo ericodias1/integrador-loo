@@ -9,7 +9,10 @@ import javax.swing.text.html.parser.Parser;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by andre on 19/11/14.
@@ -33,8 +36,13 @@ public class MediaSaveDialog extends JDialog {
     private JTextField generoTf;
     private JTextField classificacaoTf;
     private JTextField precoTf;
+
+    // variável de controle de avisos de data
+    private boolean controlDate = false;
+
     /*Checkbox*/
     private JCheckBox disponivelTf;
+
 
 
     public MediaSaveDialog(JFrame parent ,MediaController controller, Media m){
@@ -89,6 +97,7 @@ public class MediaSaveDialog extends JDialog {
     private void setComponents(){
         try{
             this.idTf = new JTextField();
+            idTf.setEnabled(false);
             this.tituloTf =  new JTextField();
             maskDate = new MaskFormatter("##/##/####");
             maskDate.setPlaceholderCharacter('_');
@@ -134,7 +143,17 @@ public class MediaSaveDialog extends JDialog {
                 idTf.setText(media.getId().toString());
                 idTf.setEnabled(false);
                 tituloTf.setText(media.getTitulo());
-                dataTf.setText(media.getData_lancamento().getDate()+"/"+(media.getData_lancamento().getMonth()+1)+"/"+media.getData_lancamento().getYear());
+
+                // trabalhando com data
+                GregorianCalendar g = new GregorianCalendar();
+                g.setTime(media.getData_lancamento());
+                String day = g.get(GregorianCalendar.DAY_OF_MONTH)+"";
+                String month = (g.get(GregorianCalendar.MONTH)+1)+"";
+                day = (day.length() == 2) ? day : "0"+day;
+                month = (month.length() == 2) ? month : "0"+month;
+                String text_tfDataNascimento = day+"/"+month+"/"+g.get(GregorianCalendar.YEAR);
+                dataTf.setText(text_tfDataNascimento);
+
                 generoTf.setText(media.getGenero());
                 classificacaoTf.setText(media.getClassificacao().toString());
                 precoTf.setText(media.getPreco().toString());
@@ -148,6 +167,31 @@ public class MediaSaveDialog extends JDialog {
     }
 
     private void setEvents(){
+        dataTf.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                if(!controlDate){
+                    JOptionPane.showMessageDialog(centerPanel, "Por favor, digite uma data no formato Brasileiro dia/mês/ano, sendo ano com 4 dígitos.");
+                    controlDate = true;
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                if(controlDate){
+                    try{
+                        String[] date_split = dataTf.getText().split("/");
+                        Date data = new Date(Integer.parseInt(date_split[2]),(Integer.parseInt(date_split[1])-1),Integer.parseInt(date_split[0]));
+                        controlDate = true;
+                    }catch (Exception e){
+                        JOptionPane.showMessageDialog(centerPanel, "Você digitou uma data inválida.");
+                        dataTf.requestFocus();
+                        controlDate = false;
+                    }
+                }
+            }
+        });
+
         cancelButtom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -164,7 +208,11 @@ public class MediaSaveDialog extends JDialog {
                 Integer id = Integer.parseInt(idTf.getText());
                 String titulo = tituloTf.getText();
                 String[] date_split = dataTf.getText().split("/");
-                Date data = new Date(Integer.parseInt(date_split[2]),(Integer.parseInt(date_split[1])-1),Integer.parseInt(date_split[0]));
+
+                GregorianCalendar g = new GregorianCalendar();
+                g.set(Integer.parseInt(date_split[2]), Integer.parseInt(date_split[1])-1, Integer.parseInt(date_split[0]));
+                Date data_lanc = g.getTime();
+
                 String genero = generoTf.getText();
                 Integer classificacao = Integer.parseInt(classificacaoTf.getText());
                 Double preco = Double.parseDouble(precoTf.getText());
@@ -178,9 +226,9 @@ public class MediaSaveDialog extends JDialog {
                 }
 
                 if(media == null){
-                    media = new Media(titulo, data, genero, classificacao, preco, disponivel, id);
+                    media = new Media(titulo, data_lanc, genero, classificacao, preco, disponivel, id);
                 }else{
-                    media.copy(new Media(titulo, data, genero, 12, preco, disponivel, media.getId()));
+                    media.copy(new Media(titulo, data_lanc, genero, 12, preco, disponivel, media.getId()));
                 }
                 media.save();
                 Integer result = JOptionPane.showConfirmDialog(centerPanel,"Media Salva com sucesso!\nDeseja salvar outra media?","Cadastrar Media - Locafix", 0);

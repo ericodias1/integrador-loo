@@ -8,7 +8,11 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by erico on 11/11/14.
@@ -44,6 +48,9 @@ public class ClienteSaveDialog extends JDialog{
     private JTextField tfEmail = new JTextField();
     private JTextField tfProfissao = new JTextField();
 
+    // variável de controle de avisos de data
+    private boolean controlDate = false;
+
     public ClienteSaveDialog(ClienteWindow parent, ClienteController controller, Cliente c) {
         super(parent, "Salvar cliente", true);
         this.controller = controller;
@@ -72,6 +79,31 @@ public class ClienteSaveDialog extends JDialog{
 
 
     private void setEvents() {
+        tfData_nascimento.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                if(!controlDate){
+                    JOptionPane.showMessageDialog(internalPanel, "Por favor, digite uma data no formato Brasileiro dia/mês/ano, sendo ano com 4 dígitos.");
+                    controlDate = true;
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                if(controlDate){
+                    try{
+                        String[] date_split = tfData_nascimento.getText().split("/");
+                        Date data = new Date(Integer.parseInt(date_split[2]),(Integer.parseInt(date_split[1])-1),Integer.parseInt(date_split[0]));
+                        controlDate = true;
+                    }catch (Exception e){
+                        JOptionPane.showMessageDialog(internalPanel, "Você digitou uma data inválida.");
+                        tfData_nascimento.requestFocus();
+                        controlDate = false;
+                    }
+                }
+            }
+        });
+
         btSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -79,7 +111,9 @@ public class ClienteSaveDialog extends JDialog{
                     String nome = tfNome.getText();
                     String cpf = tfCpf.getText();
                     String[] date = tfData_nascimento.getText().split("/");
-                    Date data_nasc = new Date(Integer.parseInt(date[2]), (Integer.parseInt(date[1])-1), Integer.parseInt(date[0]));
+                    GregorianCalendar g = new GregorianCalendar();
+                    g.set(Integer.parseInt(date[2]), Integer.parseInt(date[1])-1, Integer.parseInt(date[0]));
+                    Date data_nasc = g.getTime();
                     String rg = tfRg.getText();
                     Character sexo = tfSexo.getText().charAt(0);
                     String email = tfEmail.getText();
@@ -139,9 +173,17 @@ public class ClienteSaveDialog extends JDialog{
                 tfCpf.setText(cliente.getCpf());
                 tfCpf.setEnabled(false);
                 tfRg.setText(cliente.getRg());
-                String text_tfDataNascimento = cliente.getData_nascimento().getDay()+"/"+(cliente.getData_nascimento().getMonth()+1)+"/"+cliente.getData_nascimento().getYear();
-                System.out.println(text_tfDataNascimento);
+
+                // trabalhando com data
+                GregorianCalendar g = new GregorianCalendar();
+                g.setTime(cliente.getData_nascimento());
+                String day = g.get(GregorianCalendar.DAY_OF_MONTH)+"";
+                String month = (g.get(GregorianCalendar.MONTH)+1)+"";
+                day = (day.length() == 2) ? day : "0"+day;
+                month = (month.length() == 2) ? month : "0"+month;
+                String text_tfDataNascimento = day+"/"+month+"/"+g.get(GregorianCalendar.YEAR);
                 tfData_nascimento.setText(text_tfDataNascimento);
+
                 tfSexo.setText(cliente.getSexo().toString());
                 tfEmail.setText(cliente.getEmail());
                 tfTelefone.setText(cliente.getTelefone());
