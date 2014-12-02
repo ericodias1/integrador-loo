@@ -25,6 +25,10 @@ public class Locacao {
         this.key = key;
     }
 
+    public String toString(){
+        return "\nCliente: "+cliente+"\nMedia :"+medias.toString()+"\nValor:"+valor+"\nLocado:"+locado+"\nkey:"+key;
+    }
+
     public void locar(){
 
     }
@@ -112,7 +116,7 @@ public class Locacao {
 
     public static ArrayList<Locacao> all_leased(){
         ArrayList<Locacao> locs;
-        Locacao loc = new Locacao(null, null, null,null,true, null);
+        Locacao loc = new Locacao(null, null, null,null,true,null);
         locs = db.find(loc);
         return locs;
     }

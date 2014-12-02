@@ -2,9 +2,13 @@ package views;
 
 import controllers.DevolverController;
 import models.Locacao;
+import models.Media;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import static java.awt.BorderLayout.*;
 
@@ -40,7 +44,40 @@ public class DevolverSaveDialog extends JDialog {
     }
 
     private void setEvents() {
+        BtCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int result = JOptionPane.showConfirmDialog(mainPanel, "Deseja realmente cancelar a Devolução?","Devolução - LocaFix", 2);
+                if(result == 0){
+                    dispose();
+                }
+            }
+        });
 
+        BtDevolver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(loc.getPago()){
+                    Integer result = JOptionPane.showConfirmDialog(mainPanel, "Confirmar devolução:", "Devolução LocaFix",0);
+                    if(result == 0){
+                        DevolverSaveDialog.this.controller.salveDevolution(loc);
+                        dispose();
+                        prepareMediaTable();
+                    }
+                }else{
+                    if(!radio_avista.isSelected() && !radio_cartao.isSelected()){
+                        JOptionPane.showMessageDialog(mainPanel,"É preciso selecionar um método de pagamento!", "Devolução - LocaFix", 0);
+                    }else{
+                        Integer result = JOptionPane.showConfirmDialog(mainPanel, "Confirmar devolução:", "Devolução LocaFix",0);
+                        if(result == 0){
+                            DevolverSaveDialog.this.controller.salveDevolution(loc);
+                            dispose();
+                            prepareMediaTable();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void setComponents() {
@@ -85,7 +122,13 @@ public class DevolverSaveDialog extends JDialog {
     }
 
     private void prepareMediaTable() {
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"BarCODE", "Nome", "Genero"},0);
 
+        for(Integer id_media : this.loc.getMedias()) {
+            Media m = Media.findById(id_media);
+            model.addRow(new Object[]{m.getId(), m.getTitulo(), m.getGenero()});
+        }
+        mediaTable.setModel(model);
     }
 
     private void setLayout() {
