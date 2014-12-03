@@ -1,6 +1,5 @@
 package models;
 
-import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.ext.DatabaseFileLockedException;
@@ -12,72 +11,72 @@ import java.util.List;
  * Created by erico on 09/11/14.
  */
 public class ClienteDatabase implements ClienteDao{
-    private static ObjectContainer db;
+//    private static ObjectContainer db;
 
     public ClienteDatabase(){}
 
-    private void openDB(){
-        try {
-            db = Db4oEmbedded.openFile("database.db");
-        }catch (DatabaseFileLockedException e){
-            System.out.println("Database already opened.. skipping..");
-        }
-    }
+//    private void openDB(){
+//        try {
+//            db = BaseDatabaseDB40.getInstance();
+//        }catch (DatabaseFileLockedException e){
+//            System.out.println("Database already opened.. skipping..");
+//        }
+//    }
 
-    private void closeDB(){
-        db.close();
-    }
+//    private void closeDB(){
+//        BaseDatabaseDB40.closeDatabase();
+//    }
 
     public void insert(Cliente c){
         try{
             if(findByCpf(c.getCpf()) != null) throw new RuntimeException("Cliente já existe!");
-            openDB();
-            db.store(c);
-            db.commit();
+//            openDB();
+            BaseDatabaseDB40.getInstance().store(c);
+            BaseDatabaseDB40.getInstance().commit();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 
     public ArrayList<Cliente> find(Cliente c){
         try{
             ArrayList<Cliente> result = new ArrayList<Cliente>();
-            openDB();
-            ObjectSet<Object> query = db.queryByExample(c);
+//            openDB();
+            ObjectSet<Object> query = BaseDatabaseDB40.getInstance().queryByExample(c);
             while(query.hasNext()) result.add((Cliente)query.next());
             return result;
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
         return null;
     }
 
     public void delete(Cliente c){
         try{
-            openDB();
-            ObjectSet<Object> query = db.queryByExample(c);
-            while(query.hasNext()) db.delete(query.next());
+//            openDB();
+            ObjectSet<Object> query = BaseDatabaseDB40.getInstance().queryByExample(c);
+            while(query.hasNext()) BaseDatabaseDB40.getInstance().delete(query.next());
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 
     public void update(Cliente c){
         try{
-            openDB();
-            ObjectSet<Cliente> query = db.queryByExample(new Cliente(null, c.getCpf(), null, null, null, null, null, null));
-            while(query.hasNext()) db.store(query.next().copy(c));
-            db.commit();
+//            openDB();
+            ObjectSet<Cliente> query = BaseDatabaseDB40.getInstance().queryByExample(new Cliente(null, c.getCpf(), null, null, null, null, null, null));
+            while(query.hasNext()) BaseDatabaseDB40.getInstance().store(query.next().copy(c));
+            BaseDatabaseDB40.getInstance().commit();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 

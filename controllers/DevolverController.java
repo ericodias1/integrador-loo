@@ -34,11 +34,13 @@ public class DevolverController {
         for(Integer id : loc.getMedias()){
             Media m = Media.findById(id);
             m.setDisponivel(true);
+            m.save();
         }
         if(!loc.getPago()) {
             loc.setPago(true);
         }
-        //System.out.println(loc.toString());
+        String key = loc.getKey();
         loc.save();
+//        System.out.println(Locacao.findByKey(key).toString());
     }
 }

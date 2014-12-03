@@ -1,6 +1,5 @@
 package models;
 
-import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 
@@ -12,28 +11,28 @@ import java.util.List;
  */
 public class MediaDatabase implements MediaDao{
 
-    private ObjectContainer db;
+//    private ObjectContainer db;
 
     public MediaDatabase(){}
 
-    private void openDB(){
-        db = Db4oEmbedded.openFile("database.db");
-    }
+//    private void openDB(){
+//        db = BaseDatabaseDB40.getInstance();
+//    }
 
-    private void closeDB(){
-        db.close();
-    }
+//    private void closeDB(){
+//        BaseDatabaseDB40.closeDatabase();
+//    }
 
     @Override
     public void insert(Media m) {
         try{
-            openDB();
-            db.store(m);
-            db.commit();
+//            openDB();
+            BaseDatabaseDB40.getInstance().store(m);
+            BaseDatabaseDB40.getInstance().commit();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 
@@ -41,14 +40,14 @@ public class MediaDatabase implements MediaDao{
     public ArrayList<Media> find(Media m) {
         try{
             ArrayList<Media> result = new ArrayList<Media>();
-            openDB();
-            ObjectSet<Object> query = db.queryByExample(m);
+//            openDB();
+            ObjectSet<Object> query = BaseDatabaseDB40.getInstance().queryByExample(m);
             while(query.hasNext()) result.add((Media)query.next());
             return result;
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
         return null;
     }
@@ -56,28 +55,28 @@ public class MediaDatabase implements MediaDao{
     @Override
     public void delete(Media m) {
         try{
-            openDB();
-            ObjectSet<Object> query = db.queryByExample(m);
-            while(query.hasNext()) db.delete(query.next());
+//            openDB();
+            ObjectSet<Object> query = BaseDatabaseDB40.getInstance().queryByExample(m);
+            while(query.hasNext()) BaseDatabaseDB40.getInstance().delete(query.next());
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 
     @Override
     public void update(Media m) {
         try{
-            openDB();
+//            openDB();
             Media media = new Media(null, null, null, null, null, null, m.getId());
-            ObjectSet<Media> query = db.queryByExample(media);
-            while(query.hasNext()) db.store(query.next().copy(m));
-            db.commit();
+            ObjectSet<Media> query = BaseDatabaseDB40.getInstance().queryByExample(media);
+            while(query.hasNext()) BaseDatabaseDB40.getInstance().store(query.next().copy(m));
+            BaseDatabaseDB40.getInstance().commit();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 

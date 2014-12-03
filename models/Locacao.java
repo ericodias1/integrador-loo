@@ -26,8 +26,7 @@ public class Locacao {
     }
 
     public String toString(){
-        return "Locacao";
-        //return "\nCliente: "+cliente+"\nMedia :"+(medias==null?"no_media":medias.toString())+"\nValor:"+valor+"\nLocado:"+locado+"\nkey:"+key;
+        return "\nCliente: "+cliente+"\nMedia :"+(medias==null?"no_media":medias.toString())+"\nValor:"+valor+"\nLocado:"+locado+"\nkey:"+key;
     }
 
     public void locar(){

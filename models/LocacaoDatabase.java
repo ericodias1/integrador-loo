@@ -1,6 +1,5 @@
 package models;
 
-import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 
@@ -11,29 +10,29 @@ import java.util.List;
  * Created by andre on 25/11/14.
  */
 public class LocacaoDatabase implements LocacaoDao{
-    private static ObjectContainer db;
+//    private static ObjectContainer db;
 
     public LocacaoDatabase(){}
 
-    private void openDB(){
-        db = Db4oEmbedded.openFile("database.db");
-    }
+//    private void openDB(){
+//        db = BaseDatabaseDB40.getInstance();
+//    }
 
-    private void closeDB(){
-        db.close();
-    }
+//    private void closeDB(){
+//        BaseDatabaseDB40.closeDatabase();
+//    }
 
     @Override
     public void insert(Locacao loc) {
         try{
             if(findByKey(loc.getKey()) != null) throw new RuntimeException("Locação já registrada!");
-            openDB();
-            db.store(loc);
-            db.commit();
+//            openDB();
+            BaseDatabaseDB40.getInstance().store(loc);
+            BaseDatabaseDB40.getInstance().commit();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 
@@ -41,14 +40,14 @@ public class LocacaoDatabase implements LocacaoDao{
     public ArrayList<Locacao> find(Locacao loc) {
         try{
             ArrayList<Locacao> result = new ArrayList<Locacao>();
-            openDB();
-            ObjectSet<Object> query = db.queryByExample(loc);
+//            openDB();
+            ObjectSet<Object> query = BaseDatabaseDB40.getInstance().queryByExample(loc);
             while(query.hasNext()) result.add((Locacao)query.next());
             return result;
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
         return null;
     }
@@ -56,28 +55,35 @@ public class LocacaoDatabase implements LocacaoDao{
     @Override
     public void delete(Locacao loc) {
         try{
-            openDB();
-            ObjectSet<Object> query = db.queryByExample(loc);
-            while(query.hasNext()) db.delete(query.next());
+//            openDB();
+            ObjectSet<Object> query = BaseDatabaseDB40.getInstance().queryByExample(loc);
+            while(query.hasNext()) BaseDatabaseDB40.getInstance().delete(query.next());
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 
     @Override
     public void update(Locacao loc) {
         try{
-            openDB();
+//            openDB();
             Locacao loc_int = new Locacao(null, null, null, null, null, loc.getKey());
-            ObjectSet<Locacao> query = db.queryByExample(loc_int);
-            if(query.hasNext()) db.store(query.next().copy(loc));
-            db.commit();
+            ObjectSet<Locacao> query = BaseDatabaseDB40.getInstance().queryByExample(loc_int);
+            if(query.hasNext()){
+                Locacao loc_copy = query.next().copy(loc);
+                this.delete(loc);
+                this.insert(loc_copy);
+//                loc_copy.setLocado(loc.getLocado());
+//                BaseDatabaseDB40.getInstance().store(loc_copy);
+//                BaseDatabaseDB40.getInstance().commit();
+            }
+            BaseDatabaseDB40.getInstance().commit();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            closeDB();
+            BaseDatabaseDB40.closeDatabase();
         }
     }
 
