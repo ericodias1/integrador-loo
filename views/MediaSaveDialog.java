@@ -97,7 +97,7 @@ public class MediaSaveDialog extends JDialog {
     private void setComponents(){
         try{
             this.idTf = new JTextField();
-            idTf.setEnabled(false);
+//            idTf.setEnabled(true);
             this.tituloTf =  new JTextField();
             maskDate = new MaskFormatter("##/##/####");
             maskDate.setPlaceholderCharacter('_');

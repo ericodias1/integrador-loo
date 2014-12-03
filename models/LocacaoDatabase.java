@@ -68,17 +68,10 @@ public class LocacaoDatabase implements LocacaoDao{
     @Override
     public void update(Locacao loc) {
         try{
-//            openDB();
             Locacao loc_int = new Locacao(null, null, null, null, null, loc.getKey());
             ObjectSet<Locacao> query = BaseDatabaseDB40.getInstance().queryByExample(loc_int);
-            if(query.hasNext()){
-                Locacao loc_copy = query.next().copy(loc);
-                this.delete(loc);
-                this.insert(loc_copy);
-//                loc_copy.setLocado(loc.getLocado());
-//                BaseDatabaseDB40.getInstance().store(loc_copy);
-//                BaseDatabaseDB40.getInstance().commit();
-            }
+            while(query.hasNext())
+                BaseDatabaseDB40.getInstance().store(query.next().copy(loc));
             BaseDatabaseDB40.getInstance().commit();
         }catch (Exception e){
             e.printStackTrace();
