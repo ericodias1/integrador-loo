@@ -89,9 +89,13 @@ public class DevolverWindow extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer selec = locacationTable.getSelectedRow();
-                String id = (String) locacationTable.getValueAt(selec, 0);
-
-                controller.preparToDevolution(id);
+                if(selec == -1){
+                    JOptionPane.showMessageDialog(null,"Nenhuma locação foi selecionada", "Devolução - LocaFix", 1);
+                }else {
+                    String id = (String) locacationTable.getValueAt(selec, 0);
+                    controller.preparToDevolution(id);
+                    dispose();
+                }
             }
         });
     }

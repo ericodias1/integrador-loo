@@ -62,7 +62,6 @@ public class DevolverSaveDialog extends JDialog {
                     if(result == 0){
                         DevolverSaveDialog.this.controller.salveDevolution(loc);
                         dispose();
-                        prepareMediaTable();
                     }
                 }else{
                     if(!radio_avista.isSelected() && !radio_cartao.isSelected()){
@@ -72,7 +71,6 @@ public class DevolverSaveDialog extends JDialog {
                         if(result == 0){
                             DevolverSaveDialog.this.controller.salveDevolution(loc);
                             dispose();
-                            prepareMediaTable();
                         }
                     }
                 }

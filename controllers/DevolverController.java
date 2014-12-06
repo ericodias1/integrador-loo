@@ -41,6 +41,5 @@ public class DevolverController {
         }
         String key = loc.getKey();
         loc.save();
-//        System.out.println(Locacao.findByKey(key).toString());
     }
 }
